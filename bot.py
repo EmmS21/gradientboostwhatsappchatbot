@@ -84,7 +84,7 @@ def bot():
         output = str(cleaned_number)
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
-    if 'python-easy' in incoming_msg:
+    if 'python easy' in incoming_msg:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_test.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -92,7 +92,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if 'python-intermediate' in incoming_msg:
+    if 'python intermediate' in incoming_msg:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_medium.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -100,7 +100,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if 'python-advanced' in incoming_msg:
+    if 'python advanced' in incoming_msg:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/advanced.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -108,7 +108,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if 'stats-probability' in incoming_msg:
+    if 'stats probability' in incoming_msg:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/statistics_probability.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -116,7 +116,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if 'the-gradient-boost' in incoming_msg:
+    if 'the gradient boost' in incoming_msg:
         url = 'https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/welcome.txt'
         file = urllib.request.urlopen(url)
         full_text = [line.decode("utf-8") for line in file]
@@ -149,7 +149,7 @@ def bot():
         output = str(total_interactions)
         msg.body(output)
         responded = True
-    if 'contact-details' in incoming_msg:
+    if 'contact details' in incoming_msg:
         output = 'emmanuel@thegradientboost.com'
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True

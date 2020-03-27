@@ -77,7 +77,7 @@ def bot():
     if 'help' in incoming_msg:
         output = "This is a chatbot designed to send statistics and probabiliy, numpy, web scraping, object oriented programming, list comprehension and other programming concepts that will help you further develop your programming and statistical skills. " \
                  "If you are stuck on something feel free to drop a Slack message in the whatsapp channel to get guidance from either a learning peer or one of our mentors. " \
-                 "You can type the keywords: 'python-easy', 'python-intermediate', 'python-advanced' or 'stats-probability' for coding challenges. Note: you can only send 5 requests per 24 hour period. You can also type in 'attempts' to find out how many attempts you have made, 'help' to re-read this message, 'the-gradient-boost' to learn more about our bootcamp, 'site' to get a link to our site, 'blog' to get the url to our blog for interesting articles we have written on our bootcamp , 'twitter' or 'facebook'  to visit our Twitter and Facebook pages for updates. Typing these keywords will not increase your attempts. Remember programming is all about practise, the more you keep trying the better you will develop your skills. You can also type in contact-details to get our email address."
+                 "You can type the keywords: 'python easy', 'python intermediate', 'python advanced' or 'stats probability' for coding challenges. Note: you can only send 5 requests per 24 hour period. You can also type in 'attempts' to find out how many attempts you have made, 'help' to re-read this message, 'the gradient boost' to learn more about our bootcamp, 'site' to get a link to our site, 'blog' to get the url to our blog for interesting articles we have written on our bootcamp , 'twitter' or 'facebook'  to visit our Twitter and Facebook pages for updates. Typing these keywords will not increase your attempts. Remember programming is all about practise, the more you keep trying the better you will develop your skills. You can also type in contact details to get our email address."
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
     if 'number' in incoming_msg:
@@ -154,7 +154,7 @@ def bot():
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
     if not responded:
-        msg.body("The phrase '{}' is currently not recognised by this app. I currently only know how to respond to the key words: 'the-gradient-boost', 'python-easy', 'python-intermediate', 'python-advanced', 'stats-probability', 'contact-details', 'attempts', 'help' and 'site'. In the near future I will be able to send notifications regarding assignments and projects and Data Science interview tips from recruiters to students enrolled in The Gradient Boost online school.".format(incoming_msg))
+        msg.body("The phrase '{}' is currently not recognised by this app. I currently only know how to respond to the key words: 'the gradient boost', 'python easy', 'python intermediate', 'python advanced', 'stats probability', 'contact details', 'attempts', 'help' and 'site'. In the near future I will be able to send notifications regarding assignments and projects and Data Science interview tips from recruiters to students enrolled in The Gradient Boost online school.".format(incoming_msg))
         user_object = Users()
         user_object.cell_number = int(cleaned_number)
         user_object.request_key = incoming_msg

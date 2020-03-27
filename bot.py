@@ -19,7 +19,7 @@ db = SQLAlchemy(app)
 class Users(db.Model):
     __tablename__ = 'users'
     cell_number = db.Column(db.Integer, primary_key = True)
-    interaction_date = db.Column(db.DateTime, default = datetime.now(pytz.timezone('Africa/Harare')), nullable=False)
+    interaction_date = db.Column(db.DateTime, default = datetime.now(), nullable=False)
     request_key = db.Column(db.String(64000))
     counter = db.Column(db.Integer())
 @app.route('/bot', methods=['POST'])
@@ -32,8 +32,8 @@ def bot():
     cleaned_number = re.sub('[^0-9]', '', number)
     msg = resp.message()
     #set start and end time
-    current = datetime.now(pytz.timezone('Africa/Harare'))
-    start = datetime.now(pytz.timezone('Africa/Harare')) - timedelta(hours=23, minutes=59)
+    current = datetime.now()
+    start = datetime.now() - timedelta(hours=23, minutes=59)
     #count interactions in last 24 hours
     total_interactions = Users.query.filter(Users.cell_number == cleaned_number).\
         filter(Users.interaction_date <= current).\
@@ -53,13 +53,23 @@ def bot():
         full_text = [line.decode("utf-8").replace('\n', '') for line in file]
         chall = random.choice(full_text)
         challenge = ''.join(map(str, chall))
-        msg.body(challenge)
-        user_object = Users()
-        user_object.cell_number = int(cleaned_number)
-        user_object.request_key = incoming_msg
-        user_object.counter = 1
-        db.session.add(user_object)
-        db.session.commit()
+        try:
+            msg.body(challenge)
+            user_object = Users()
+            user_object.cell_number = int(cleaned_number)
+            user_object.request_key = incoming_msg
+            user_object.counter = 1
+            db.session.add(user_object)
+            db.session.commit()
+        except:
+            error = 'Sorry, we ran into a mistake somewhere, this will not be added as an attempt. Please try again'
+            msg.body(error)
+            user_object = Users()
+            user_object.cell_number = int(cleaned_number)
+            user_object.request_key = incoming_msg
+            user_object.counter = 0
+            db.session.add(user_object)
+            db.session.commit()
     #when out of attempts
     def action_else():
         output = 'Unfortunately, for costing reasons we currently cap the number of requests to 5 every 24 hours. We are happy about your enthusiasm in learning how to code. Maybe you should consider enrolling into your Introduction to Data Science course?. Visit our typeform to presign up: https://techmentor.typeform.com/to/PpUG1P'
@@ -75,7 +85,7 @@ def bot():
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
     if 'python-easy' in incoming_msg:
-        if total_interactions <= 5:
+        if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_test.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True
@@ -83,7 +93,7 @@ def bot():
             action_else()
             responded = True
     if 'python-intermediate' in incoming_msg:
-        if total_interactions <= 5:
+        if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_medium.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True
@@ -91,7 +101,7 @@ def bot():
             action_else()
             responded = True
     if 'python-advanced' in incoming_msg:
-        if total_interactions <= 5:
+        if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/advanced.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True
@@ -99,7 +109,7 @@ def bot():
             action_else()
             responded = True
     if 'stats-probability' in incoming_msg:
-        if total_interactions <=5:
+        if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/statistics_probability.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True

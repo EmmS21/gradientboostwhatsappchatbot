@@ -2,11 +2,11 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from twilio.twiml.messaging_response import MessagingResponse
 import random
-from pathlib import Path
 import re
 from datetime import datetime, timedelta
 import pytz
 from flask import Flask
+import urllib.request
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -48,17 +48,18 @@ def bot():
         db.session.add(user_object)
         db.session.commit
     #when we want to increment attempts
-    # def action_control(file_path, incoming_msg):
-    #     with open(file_path, "r") as f:
-    #         lines = f.readlines()
-    #         code = random.choice(lines)
-    #         msg.body(code)
-    #         user_object = Users()
-    #         user_object.cell_number = int(cleaned_number)
-    #         user_object.request_key = incoming_msg
-    #         user_object.counter = 1
-    #         db.session.add(user_object)
-    #         db.session.commit()
+    def action_control(file_path, incoming_msg):
+        file = urllib.request.urlopen(url)
+        full_text = [line.decode("utf-8").replace('\n', '') for line in file]
+        chall = random.choice(full_text)
+        challenge = ''.join(map(str, chall))
+        msg.body(challenge)
+        user_object = Users()
+        user_object.cell_number = int(cleaned_number)
+        user_object.request_key = incoming_msg
+        user_object.counter = 1
+        db.session.add(user_object)
+        db.session.commit()
     #when out of attempts
     def action_else():
         output = 'Unfortunately, for costing reasons we currently cap the number of requests to 5 every 24 hours. We are happy about your enthusiasm in learning how to code. Maybe you should consider enrolling into your Introduction to Data Science course?. Visit our typeform to presign up: https://techmentor.typeform.com/to/PpUG1P'
@@ -73,50 +74,51 @@ def bot():
         output = str(cleaned_number)
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
-    # if 'python-easy' in incoming_msg:
-    #     if total_interactions <= 5:
-    #         file_path = "C://Users//User//Downloads//python_test.txt"
-    #         action_control(file_path=file_path, incoming_msg=incoming_msg)
-    #         responded = True
-    #     else:
-    #         action_else()
-    #         responded = True
-    # if 'python-intermediate' in incoming_msg:
-    #     if total_interactions <= 5:
-    #         file_path = "C://Users//User//Downloads//python_medium.txt"
-    #         action_control(file_path=file_path, incoming_msg=incoming_msg)
-    #         responded = True
-    #     else:
-    #         action_else()
-    #         responded = True
-    # if 'python-advanced' in incoming_msg:
-    #     if total_interactions <= 5:
-    #         file_path = "C://Users//User//Downloads//advanced.txt"
-    #         action_control(file_path=file_path, incoming_msg=incoming_msg)
-    #         responded = True
-    #     else:
-    #         action_else()
-    #         responded = True
-    # if 'stats-probability' in incoming_msg:
-    #     if total_interactions <=5:
-    #         file_path = "C://Users//User//Downloads//statistics_probability.txt"
-    #         action_control(file_path=file_path, incoming_msg=incoming_msg)
-    #         responded = True
-    #     else:
-    #         action_else()
-    #         responded = True
-    # if 'the-gradient-boost' in incoming_msg:
-    #     file_path = 'C://Users//User//Downloads//welcome.txt'
-    #     contents = Path(file_path).read_text()
-    #     contents = contents.strip('\n')
-    #     msg.body(contents)
-    #     user_object = Users()
-    #     user_object.cell_number = int(cleaned_number)
-    #     user_object.request_key = incoming_msg
-    #     user_object.counter = 0
-    #     db.session.add(user_object)
-    #     db.session.commit()
-    #     responded = True
+    if 'python-easy' in incoming_msg:
+        if total_interactions <= 5:
+            file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_test.txt"
+            action_control(file_path=file_path, incoming_msg=incoming_msg)
+            responded = True
+        else:
+            action_else()
+            responded = True
+    if 'python-intermediate' in incoming_msg:
+        if total_interactions <= 5:
+            file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_medium.txt"
+            action_control(file_path=file_path, incoming_msg=incoming_msg)
+            responded = True
+        else:
+            action_else()
+            responded = True
+    if 'python-advanced' in incoming_msg:
+        if total_interactions <= 5:
+            file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/advanced.txt"
+            action_control(file_path=file_path, incoming_msg=incoming_msg)
+            responded = True
+        else:
+            action_else()
+            responded = True
+    if 'stats-probability' in incoming_msg:
+        if total_interactions <=5:
+            file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/statistics_probability.txt"
+            action_control(file_path=file_path, incoming_msg=incoming_msg)
+            responded = True
+        else:
+            action_else()
+            responded = True
+    if 'the-gradient-boost' in incoming_msg:
+        url = 'https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/welcome.txt'
+        file = urllib.request.urlopen(url)
+        full_text = [line.decode("utf-8") for line in file]
+        file_read = ''.join(map(str, full_text))
+        msg.body(file_read)
+        user_object = Users()
+        user_object.cell_number = int(cleaned_number)
+        user_object.request_key = incoming_msg
+        user_object.counter = 0
+        db.session.add(user_object)
+        db.session.commit()
+        responded = True
     if 'site' in incoming_msg:
         output = 'http://thegradientboost.com/'
         action_control_no_increment(output=output, incoming_msg=incoming_msg)

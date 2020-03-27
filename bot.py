@@ -49,7 +49,7 @@ def bot():
         db.session.commit
     #when we want to increment attempts
     def action_control(file_path, incoming_msg):
-        file = urllib.request.urlopen(url)
+        file = urllib.request.urlopen(file_path)
         full_text = [line.decode("utf-8").replace('\n', '') for line in file]
         chall = random.choice(full_text)
         challenge = ''.join(map(str, chall))

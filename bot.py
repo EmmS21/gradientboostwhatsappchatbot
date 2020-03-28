@@ -44,7 +44,9 @@ def bot():
     def action_control_no_increment(output, incoming_msg):
         msg.body(output)
         user_object = Users()
+        user_object.cell_number = int(cleaned_number)
         user_object.request_key = incoming_msg
+        user_object.counter = 0
         db.session.add(user_object)
         db.session.commit
     #when we want to increment attempts

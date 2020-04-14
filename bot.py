@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import pytz
 from flask import Flask
 import urllib.request
+from fuzzywuzzy import fuzz
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -76,17 +77,17 @@ def bot():
     def action_else():
         output = 'Unfortunately, for costing reasons we currently cap the number of requests to 5 every 24 hours. We are happy about your enthusiasm in learning how to code. Maybe you should consider enrolling into your Introduction to Data Science course?. Visit our typeform to presign up: https://techmentor.typeform.com/to/PpUG1P'
         msg.body(output)
-    if 'help' in incoming_msg:
+    if fuzz.ratio(incoming_msg, 'help') >= 90:
         output = "This is a chatbot designed to send statistics and probabiliy, numpy, web scraping, object oriented programming, list comprehension and other programming concepts that will help you further develop your programming and statistical skills. " \
                  "If you are stuck on something feel free to drop a Slack message in the whatsapp channel to get guidance from either a learning peer or one of our mentors. " \
                  "You can type the keywords: 'python easy', 'python intermediate', 'python advanced' or 'stats probability' for coding challenges. Note: you can only send 5 requests per 24 hour period. You can also type in 'attempts' to find out how many attempts you have made, 'help' to re-read this message, 'the gradient boost' to learn more about our bootcamp, 'site' to get a link to our site, 'blog' to get the url to our blog for interesting articles we have written on our bootcamp , 'twitter' or 'facebook'  to visit our Twitter and Facebook pages for updates. Typing these keywords will not increase your attempts. Remember programming is all about practise, the more you keep trying the better you will develop your skills. You can also type in contact details to get our email address."
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
-    if 'number' in incoming_msg:
+    if fuzz.ratio(incoming_msg, 'number') >= 90:
         output = str(cleaned_number)
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
-    if 'python easy' in incoming_msg:
+    if fuzz.ratio(incoming_msg, 'python easy') >= 90:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_test.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -94,7 +95,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if 'python intermediate' in incoming_msg:
+    if fuzz.raio(incoming_msg, 'python intermediate') >= 90:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_medium.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -102,7 +103,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if 'python advanced' in incoming_msg:
+    if fuzz.ratio(incoming_msg, 'python advanced') >= 90:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/advanced.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -110,7 +111,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if 'stats probability' in incoming_msg:
+    if fuzz.ratio(incoming_msg, 'stats probability') >= 90:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/statistics_probability.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -118,7 +119,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if 'the gradient boost' in incoming_msg:
+    if fuzz.ratio(incoming_msg, 'the gradient boost') >= 90:
         url = 'https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/welcome.txt'
         file = urllib.request.urlopen(url)
         full_text = [line.decode("utf-8") for line in file]

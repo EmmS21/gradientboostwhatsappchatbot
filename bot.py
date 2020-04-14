@@ -95,7 +95,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if fuzz.raio(incoming_msg, 'python intermediate') >= 90:
+    if fuzz.ratio(incoming_msg, 'python intermediate') >= 90:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/python_medium.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
@@ -152,7 +152,7 @@ def bot():
         output = str(total_interactions)
         msg.body(output)
         responded = True
-    if 'contact details' in incoming_msg:
+    if fuzz.ratio(incoming_msg, 'contact details') >= 90:
         output = 'emmanuel@thegradientboost.com'
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True

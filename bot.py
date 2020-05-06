@@ -73,6 +73,29 @@ def bot():
             user_object.counter = 0
             db.session.add(user_object)
             db.session.commit()
+    #links to articles
+    def link_articles(file_path,incoming_msg):
+        file = urllib.request.urlopen(file_path)
+        full_text = [line.decode("utf-8").replace('\n','') for line in file]
+        chall = random.choice(full_text).split('|')
+        hyperlink = '<a href="{link}">{text}</a>'.format(link=chall[0],text=chall[1])
+        try:
+            msg.body(hyperlink)
+            user_object = Users()
+            user_object.cell_number = int(cleaned_number)
+            user_object.request_key = incoming_msg
+            user_object.counter = 1
+            db.session.add(user_object)
+            db.session.commit()
+        except:
+            error = 'Sorry, we ran into a mistake somewhere, this will not be added as an attempt. Please try again'
+            msg.body(error)
+            user_object = Users()
+            user_object.cell_number = int(cleaned_number)
+            user_object.request_key = incoming_msg
+            user_object.counter = 0
+            db.session.add(user_object)
+            db.session.commit()
     #when out of attempts
     def action_else():
         output = 'Unfortunately, for costing reasons we currently cap the number of requests to 5 every 24 hours. We are happy about your enthusiasm in learning how to code. Maybe you should consider enrolling into your Introduction to Data Science course?. Visit our typeform to presign up: https://techmentor.typeform.com/to/PpUG1P'
@@ -115,6 +138,14 @@ def bot():
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/statistics_probability.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)
+            responded = True
+        else:
+            action_else()
+            responded = True
+    if fuzz.ratio(incoming_msg, 'article') >= 90:
+        if total_interactions < 10:
+            file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/reading.txt"
+            link_articles(file_path=file_path,incoming_msg=incoming_msg)
             responded = True
         else:
             action_else()

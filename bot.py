@@ -78,7 +78,7 @@ def bot():
         file = urllib.request.urlopen(file_path)
         full_text = [line.decode("utf-8").replace('\n','') for line in file]
         chall = random.choice(full_text).split('|')
-        hyperlink = '<a href="{link}">{text}</a>'.format(link=chall[0],text=chall[1])
+        hyperlink = "{link},  Title:{text}".format(link=chall[0], text=chall[1])
         try:
             msg.body(hyperlink)
             user_object = Users()
@@ -103,9 +103,11 @@ def bot():
     if fuzz.ratio(incoming_msg, 'help') >= 90:
         output = "This is a chatbot designed to send statistics and probabiliy, numpy, web scraping, object oriented programming, list comprehension and other programming concepts that will help you further develop your programming and statistical skills. " \
                  "If you are stuck on something feel free to drop a Slack message in the whatsapp channel to get guidance from either a learning peer or one of our mentors. " \
-                 "You can type the keywords: 'python easy', 'python intermediate', 'python advanced' or 'stats probability' for coding challenges. Note: you can only send 5 requests per 24 hour period. You can also type in 'attempts' to find out how many attempts you have made, 'help' to re-read this message, 'the gradient boost' to learn more about our bootcamp, 'site' to get a link to our site, 'blog' to get the url to our blog for interesting articles we have written on our bootcamp , 'twitter' or 'facebook'  to visit our Twitter and Facebook pages for updates. Typing these keywords will not increase your attempts. Remember programming is all about practise, the more you keep trying the better you will develop your skills. You can also type in contact details to get our email address."
+                 "You can type the keywords: 'python easy', 'python intermediate', 'python advanced' or 'stats probability' for coding challenges. Note: you can only send 5 requests per 24 hour period. You can also type in 'attempts' to find out how many attempts you have made, 'help' to re-read this message, 'the gradient boost' to learn more about our bootcamp, 'keywords' to get a list of available keywords, 'site' to get a link to our site, 'blog' to get the url to our blog for interesting articles we have written on our bootcamp , 'twitter' or 'facebook'  to visit our Twitter and Facebook pages for updates. Typing these keywords will not increase your attempts. Remember programming is all about practise, the more you keep trying the better you will develop your skills. You can also type in contact details to get our email address."
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
+    if fuzz.ratio(incoming_msg, 'keywords') >= 90:
+        output = "Currently accepted keywords are: 'python easy', 'python intermediate','python advanced' to get programming challenges, 'stats probability' to get stats challenges, 'learn' to get an interesting link to either receive an article, tutorial or podcast on a particular concept in machine learning or data science in general, 'the gradient boost' to learn more about our online data science school, 'blog' to visit our blog, 'linkedin','facebook' or 'twitter' to visit our social media channels, 'signup' to get a link to enroll in our Introduction to Data Science course"
     if fuzz.ratio(incoming_msg, 'number') >= 90:
         output = str(cleaned_number)
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
@@ -142,7 +144,7 @@ def bot():
         else:
             action_else()
             responded = True
-    if fuzz.ratio(incoming_msg, 'article') >= 90:
+    if fuzz.ratio(incoming_msg, 'learn') >= 90:
         if total_interactions < 10:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/reading.txt"
             link_articles(file_path=file_path,incoming_msg=incoming_msg)
@@ -167,6 +169,9 @@ def bot():
         output = 'http://thegradientboost.com/'
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
+    if 'signup' in incoming_msg:
+        output = 'http://thegradientboost.com/accounts/signup/student/'
+        action_control_no_increment(output=output,incoming_msg=incoming_msg)
     if 'blog' in incoming_msg:
         output = 'https://medium.com/gradientboost'
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
@@ -179,16 +184,19 @@ def bot():
         output = 'https://www.facebook.com/thegradientboost'
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
+    if 'linkedin' in incoming_msg:
+        output = 'https://www.linkedin.com/company/37551624'
+        action_control_no_increment(output=output, incoming_msg=incoming_msg)
     if 'attempts' in incoming_msg:
         output = str(total_interactions)
         msg.body(output)
         responded = True
     if fuzz.ratio(incoming_msg, 'contact details') >= 90:
-        output = 'emmanuel@thegradientboost.com'
+        output = 'emmanuels@thegradientboost.com'
         action_control_no_increment(output=output, incoming_msg=incoming_msg)
         responded = True
     if not responded:
-        msg.body("The phrase '{}' is currently not recognised by this app. I currently only know how to respond to the key words: 'the gradient boost', 'python easy', 'python intermediate', 'python advanced', 'stats probability', 'contact details', 'attempts', 'help' and 'site'. In the near future I will be able to send notifications regarding assignments and projects and Data Science interview tips from recruiters to students enrolled in The Gradient Boost online school.".format(incoming_msg))
+        msg.body("The phrase '{}' is currently not recognised by this app. I currently only know how to respond to the key words: 'the gradient boost', 'python easy', 'python intermediate', 'python advanced', 'stats probability', 'contact details', 'attempts', 'learn', 'signup', 'help' and 'site'. In the near future I will be able to send notifications regarding assignments and projects and Data Science interview tips from recruiters to students enrolled in The Gradient Boost online school.".format(incoming_msg))
         user_object = Users()
         user_object.cell_number = int(cleaned_number)
         user_object.request_key = incoming_msg

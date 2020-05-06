@@ -78,7 +78,7 @@ def bot():
         file = urllib.request.urlopen(file_path)
         full_text = [line.decode("utf-8").replace('\n','') for line in file]
         chall = random.choice(full_text).split('|')
-        hyperlink = "<{link}>,  Title:{text}".format(link=chall[0], text=chall[1])
+        hyperlink = "<a href '{link}'></a>,  Title:{text}".format(link=chall[0], text=chall[1])
         try:
             msg.body(hyperlink)
             user_object = Users()

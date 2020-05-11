@@ -109,13 +109,12 @@ def bot():
     #link to tutorials
     def link_tutorials(file_path,incoming_msg,cleaned_number):
         file = urllib.request.urlopen(file_path)
-        full_text = [line.decode("utf-8").replace('\n','') for line in file]
+        full_text = [line.decode("utf-8").replace('\n', '') for line in file]
         chall = random.choice(full_text).split('|')
         hyperlink = " {link},  Title:{text}".format(link=chall[0], text=chall[1])
-        message = "Hi {}, here is your tutorial for the day: ".format(name_num.get(cleaned_number))
-        concated = hyperlink+message
+        message = "Hi {}, here is your tutorial for the day: ".format(name_num.get(cleaned_number), hyperlink)
         try:
-            msg.body(concated)
+            msg.body(message)
             user_object = Users()
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg
@@ -180,9 +179,9 @@ def bot():
             action_else()
             responded = True
     if fuzz.ratio(incoming_msg, 'tutorial') >= 90:
-        if cleaned_number in permitted and tutorial_interactions < 1:
+        if cleaned_number in permitted and tutorial_interactions < 2:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/automate-tutorials.txt"
-            link_tutorials(file_path=file_path,incoming_msg=incoming_msg,cleaned_number=cleaned_number)
+            link_tutorials(file_path=file_path,incoming_msg=incoming_msg, cleaned_number=cleaned_number)
             responded = True
         else:
             action_else()

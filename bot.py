@@ -144,6 +144,9 @@ def bot():
         else:
             action_else()
             responded = True
+    if fuzz.ratio(incoming_msg, 'testing') >=90:
+        if total_interactions < 5:
+            msg.body(cleaned_number)
     if fuzz.ratio(incoming_msg, 'learn') >= 90:
         if total_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/reading.txt"

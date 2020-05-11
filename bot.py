@@ -58,6 +58,7 @@ def bot():
         user_object.cell_number = int(cleaned_number)
         user_object.request_key = incoming_msg
         user_object.counter = 0
+        user_object.tutorial_counter = 0
         db.session.add(user_object)
         db.session.commit
     #when we want to increment attempts
@@ -72,6 +73,7 @@ def bot():
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg
             user_object.counter = 1
+            user_object.tutorial_counter = 0
             db.session.add(user_object)
             db.session.commit()
         except:
@@ -81,6 +83,7 @@ def bot():
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg
             user_object.counter = 0
+            user_object.tutorial_counter = 0
             db.session.add(user_object)
             db.session.commit()
     #links to articles
@@ -95,6 +98,7 @@ def bot():
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg
             user_object.counter = 1
+            user_object.tutorial_counter = 0
             db.session.add(user_object)
             db.session.commit()
         except:
@@ -104,6 +108,7 @@ def bot():
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg
             user_object.counter = 0
+            user_object.tutorial_counter = 0
             db.session.add(user_object)
             db.session.commit()
     #link to tutorials
@@ -118,6 +123,7 @@ def bot():
             user_object = Users()
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg
+            user_object.counter = 1
             user_object.tutorial_counter = 1
             db.session.add(user_object)
             db.session.commit()
@@ -128,6 +134,7 @@ def bot():
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg
             user_object.counter = 0
+            user_object.tutorial_counter = 0
             db.session.add(user_object)
             db.session.commit()
     #when out of attempts
@@ -204,6 +211,7 @@ def bot():
         user_object.cell_number = int(cleaned_number)
         user_object.request_key = incoming_msg
         user_object.counter = 0
+        user_object.tutorial_counter = 0
         db.session.add(user_object)
         db.session.commit()
         responded = True
@@ -243,6 +251,7 @@ def bot():
         user_object.cell_number = int(cleaned_number)
         user_object.request_key = incoming_msg
         user_object.counter = 0
+        user_object.tutorial_counter = 0
         db.session.add(user_object)
         db.session.commit()
     return str(resp)

@@ -32,7 +32,7 @@ def bot():
     #remove non numerical values
     cleaned_number = re.sub('[^0-9]', '', number)
     #permitted numbers
-    permitted = [27652581300,27713287062,27615304405]
+    permitted = ['27652581300','27713287062','27615304405']
     names = ['Emmanuel','Jasmine','Vusi']
     name_num = dict(zip(permitted,names))
     msg = resp.message()

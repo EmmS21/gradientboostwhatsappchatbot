@@ -23,6 +23,7 @@ class Users(db.Model):
     interaction_date = db.Column(db.DateTime, default = datetime.now(), nullable=False)
     request_key = db.Column(db.String(64000))
     counter = db.Column(db.Integer())
+    tutorial_counter = db.Column(db.Integer())
 @app.route('/bot', methods=['POST'])
 def bot():
     incoming_msg = request.values.get('Body', '').lower()
@@ -44,6 +45,11 @@ def bot():
         filter(Users.interaction_date <= current).\
         filter(Users.interaction_date >= start).\
         filter(Users.counter == 1).count()
+    #counting tutorial requests
+    tutorial_interactions = Users.query.filter(Users.cell_number == cleaned_number).\
+        filter(Users.interaction_date <= current).\
+        filter(Users.interaction_date >= start).\
+        filter(Users.tutorial_counter == 1).count()
     responded = False
     #in instances when we don't want to increment attempts
     def action_control_no_increment(output, incoming_msg):
@@ -89,6 +95,30 @@ def bot():
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg
             user_object.counter = 1
+            db.session.add(user_object)
+            db.session.commit()
+        except:
+            error = 'Sorry, we ran into a mistake somewhere, this will not be added as an attempt. Please try again'
+            msg.body(error)
+            user_object = Users()
+            user_object.cell_number = int(cleaned_number)
+            user_object.request_key = incoming_msg
+            user_object.counter = 0
+            db.session.add(user_object)
+            db.session.commit()
+    #link to tutorials
+    def link_tutorials(file_path,incoming_msg,cleaned_number):
+        file = urllib.request.urlopen(file_path)
+        full_text = [line.decode("utf-8").replace('\n','') for line in file]
+        chall = random.choice(full_text).split('|')
+        hyperlink = "{link},  Title:{text}".format(link=chall[0], text=chall[1])
+        message = 'Hi {}, here is your tutorial for the day:'.format(name_num.get(cleaned_number))
+        try:
+            msg.body(message + ' ' + hyperlink)
+            user_object = Users()
+            user_object.cell_number = int(cleaned_number)
+            user_object.request_key = incoming_msg
+            user_object.tutorial_counter = 1
             db.session.add(user_object)
             db.session.commit()
         except:
@@ -148,10 +178,10 @@ def bot():
         else:
             action_else()
             responded = True
-    if fuzz.ratio(incoming_msg, 'testing') >= 90:
-        if cleaned_number in permitted:
-            message = 'Hi {}, here is your challenge'.format(name_num.get(cleaned_number))
-            msg.body(message + ' ' + cleaned_number)
+    if fuzz.ratio(incoming_msg, 'tutorial') >= 90:
+        if cleaned_number in permitted and tutorial_interactions < 1:
+            file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/automate-tutorials.txt"
+            link_tutorials(file_path=file_path,incoming_msg=incoming_msg,cleaned_number=cleaned_number)
             responded = True
     if fuzz.ratio(incoming_msg, 'learn') >= 90:
         if total_interactions < 5:

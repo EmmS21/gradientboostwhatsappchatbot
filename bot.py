@@ -150,7 +150,8 @@ def bot():
             responded = True
     if fuzz.ratio(incoming_msg, 'testing') >= 90:
         if cleaned_number in permitted:
-            msg.body('Hi{}'.format(name_num.get(cleaned_number), cleaned_number))
+            message = 'Hi {}, here is your challenge'.format(name_num.get(cleaned_number))
+            msg.body(message + ' ' + cleaned_number)
             responded = True
     if fuzz.ratio(incoming_msg, 'learn') >= 90:
         if total_interactions < 5:

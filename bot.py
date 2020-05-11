@@ -117,9 +117,9 @@ def bot():
         full_text = [line.decode("utf-8").replace('\n', '') for line in file]
         chall = random.choice(full_text).split('|')
         hyperlink = " {link},  Title:{text}".format(link=chall[0], text=chall[1])
-        message = "Hi {}, here is your tutorial for the day: ".format(name_num.get(cleaned_number), hyperlink)
+        message = "Hi {}, here is your tutorial: ".format(name_num.get(cleaned_number))
         try:
-            msg.body(message)
+            msg.body(message+hyperlink)
             user_object = Users()
             user_object.cell_number = int(cleaned_number)
             user_object.request_key = incoming_msg

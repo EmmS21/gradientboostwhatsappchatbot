@@ -31,6 +31,10 @@ def bot():
     number = request.values.get('From', '')
     #remove non numerical values
     cleaned_number = re.sub('[^0-9]', '', number)
+    #permitted numbers
+    permitted = [27652581300,27713287062,27615304405]
+    names = ['Emmanuel','Jasmine','Vusi']
+    name_num = dict(zip(permitted,names))
     msg = resp.message()
     #set start and end time
     current = datetime.now()
@@ -144,9 +148,9 @@ def bot():
         else:
             action_else()
             responded = True
-    if fuzz.ratio(incoming_msg, 'testing') >=90:
-        if total_interactions < 5:
-            msg.body(cleaned_number)
+    if fuzz.ratio(incoming_msg, 'testing') >= 90:
+        if cleaned_number in permitted:
+            msg.body('Hi{}'.format(name_num.get(cleaned_number), cleaned_number))
             responded = True
     if fuzz.ratio(incoming_msg, 'learn') >= 90:
         if total_interactions < 5:

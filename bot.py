@@ -138,8 +138,12 @@ def bot():
             db.session.add(user_object)
             db.session.commit()
     #when out of attempts
-    def action_else():
-        output = 'Unfortunately, for costing reasons we currently cap the number of requests to 5 every 24 hours. We are happy about your enthusiasm in learning how to code. Maybe you should consider enrolling into your Introduction to Data Science course?. Visit our typeform to presign up: https://techmentor.typeform.com/to/PpUG1P'
+    def action_else(num):
+        output = 'Unfortunately, for costing reasons we currently cap the number of requests to {} every 24 hours. We are happy about your enthusiasm in learning how to code. Maybe you should consider enrolling into your Introduction to Data Science course?. Visit our typeform to presign up: https://techmentor.typeform.com/to/PpUG1P'.format(num)
+        msg.body(output)
+    #when user is not registered
+    def not_registered():
+        output = 'Your number {} has not been registered to access this. These are keywords currently available for users registered in our Introduction to Data Science class. Email emmanuels@thegradientboost.com if you are incorrectly receiving this message.'.format(cleaned_number)
         msg.body(output)
     if fuzz.ratio(incoming_msg, 'help') >= 90:
         output = "This is a chatbot designed to send statistics and probabiliy, numpy, web scraping, object oriented programming, list comprehension and other programming concepts that will help you further develop your programming and statistical skills. " \
@@ -159,7 +163,7 @@ def bot():
             action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True
         else:
-            action_else()
+            action_else(num=5)
             responded = True
     if fuzz.ratio(incoming_msg, 'python intermediate') >= 90:
         if total_interactions < 5:
@@ -167,7 +171,7 @@ def bot():
             action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True
         else:
-            action_else()
+            action_else(num=5)
             responded = True
     if fuzz.ratio(incoming_msg, 'python advanced') >= 90:
         if total_interactions < 5:
@@ -175,7 +179,7 @@ def bot():
             action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True
         else:
-            action_else()
+            action_else(num=5)
             responded = True
     if fuzz.ratio(incoming_msg, 'stats probability') >= 90:
         if total_interactions < 5:
@@ -183,15 +187,27 @@ def bot():
             action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True
         else:
-            action_else()
+            action_else(num=5)
             responded = True
-    if fuzz.ratio(incoming_msg, 'tutorial') >= 90:
-        if cleaned_number in permitted and tutorial_interactions < 2:
-            file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/automate-tutorials.txt"
-            link_tutorials(file_path=file_path,incoming_msg=incoming_msg, cleaned_number=cleaned_number)
+    if fuzz.ratio(incoming_msg, 'programming-data') >= 90:
+        if cleaned_number in permitted and tutorial_interactions < 5:
+            file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/data-programming.txt"
+            action_control(file_path=file_path, incoming_msg=incoming_msg)
             responded = True
         else:
-            action_else()
+            action_else(num=5)
+            responded = True
+    if fuzz.ratio(incoming_msg, 'tutorial') >= 90:
+        if cleaned_number in permitted:
+            if tutorial_interactions < 2:
+                file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/automate-tutorials.txt"
+                link_tutorials(file_path=file_path,incoming_msg=incoming_msg, cleaned_number=cleaned_number)
+                responded = True
+            else:
+                action_else(num=2)
+                responded = True
+        else:
+            not_registered()
             responded = True
     if fuzz.ratio(incoming_msg, 'learn') >= 90:
         if total_interactions < 5:
@@ -199,7 +215,7 @@ def bot():
             link_articles(file_path=file_path,incoming_msg=incoming_msg)
             responded = True
         else:
-            action_else()
+            action_else(num=5)
             responded = True
     if fuzz.ratio(incoming_msg, 'the gradient boost') >= 90:
         url = 'https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/welcome.txt'

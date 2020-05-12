@@ -189,7 +189,7 @@ def bot():
         else:
             action_else(num=5)
             responded = True
-    if fuzz.ratio(incoming_msg, 'programming-data') >= 90:
+    if fuzz.ratio(incoming_msg, 'programming data') >= 90:
         if cleaned_number in permitted and tutorial_interactions < 5:
             file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/data-programming.txt"
             action_control(file_path=file_path, incoming_msg=incoming_msg)

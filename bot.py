@@ -33,8 +33,8 @@ def bot():
     #remove non numerical values
     cleaned_number = re.sub('[^0-9]', '', number)
     #permitted numbers
-    permitted = ['27652581300','27713287062','27615304405']
-    names = ['Emmanuel','Jasmine','Vusi']
+    permitted = ['27652581300','27713287062','27615304405','2347033228906']
+    names = ['Emmanuel','Jasmine','Vusi','Ritmwa']
     name_num = dict(zip(permitted,names))
     msg = resp.message()
     #set start and end time
@@ -199,12 +199,12 @@ def bot():
             responded = True
     if fuzz.ratio(incoming_msg, 'tutorial') >= 90:
         if cleaned_number in permitted:
-            if tutorial_interactions < 2:
+            if tutorial_interactions < 1:
                 file_path = "https://raw.githubusercontent.com/EmmS21/GradientBoostIntrotoDS/master/Challenges/automate-tutorials.txt"
                 link_tutorials(file_path=file_path,incoming_msg=incoming_msg, cleaned_number=cleaned_number)
                 responded = True
             else:
-                action_else(num=2)
+                action_else(num=1)
                 responded = True
         else:
             not_registered()

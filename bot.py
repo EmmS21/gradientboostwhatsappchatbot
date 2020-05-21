@@ -33,8 +33,8 @@ def bot():
     #remove non numerical values
     cleaned_number = re.sub('[^0-9]', '', number)
     #permitted numbers
-    permitted = ['27652581300', '27713287062', '27615304405', '2347033228906', '2348129190338', '2347065094065', '2348029033427']
-    names = ['Emmanuel', 'Jasmine', 'Vusi', 'Ritmwa', 'Ajibola', 'Benjamin', 'Gershinen']
+    permitted = ['27652581300', '27713287062', '27615304405', '2347033228906', '2348129190338', '2347065094065', '2348029033427','+2348106981030']
+    names = ['Emmanuel', 'Jasmine', 'Vusi', 'Ritmwa', 'Ajibola', 'Benjamin', 'Gershinen','Akinloye']
     name_num = dict(zip(permitted,names))
     msg = resp.message()
     #set start and end time

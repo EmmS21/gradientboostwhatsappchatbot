@@ -33,8 +33,11 @@ def bot():
     #remove non numerical values
     cleaned_number = re.sub('[^0-9]', '', number)
     #permitted numbers
-    permitted = ['27652581300', '27713287062', '27615304405', '2347033228906', '2348129190338', '2347065094065', '2348029033427','+2348106981030']
-    names = ['Emmanuel', 'Jasmine', 'Vusi', 'Ritmwa', 'Ajibola', 'Benjamin', 'Gershinen','Akinloye']
+    permitted = ['27652581300', '27713287062', '27615304405', '2347033228906', '2348129190338', '2347065094065', '2348029033427','+2348106981030',
+                 '22508574107', '264817432237', '27719414928', '27682447324', '27658112020',
+                 '2348166784247', '27765085085']
+    names = ['Emmanuel', 'Jasmine', 'Vusi', 'Ritmwa', 'Ajibola', 'Benjamin', 'Gershinen','Akinloye',
+             'Djangoran', 'Tokolo', 'Noxolo', 'Boipelo', 'Lethlogile', 'Mariam', 'Zenzele']
     name_num = dict(zip(permitted,names))
     msg = resp.message()
     #set start and end time
@@ -231,6 +234,43 @@ def bot():
         db.session.add(user_object)
         db.session.commit()
         responded = True
+    #past tutorials
+    if fuzz.ratio(incoming_msg, 'conditionals') >= 90:
+        if cleaned_number in permitted:
+            output = 'https://www.youtube.com/watch?v=3O6x58cjGto'
+            action_control_no_increment(output=output, incoming_msg=incoming_msg)
+            responded = True
+    if fuzz.ratio(incoming_msg, 'intro pandas') >= 90:
+        if cleaned_number in permitted:
+            output = 'https://www.youtube.com/watch?v=GKjiTQtL8RM'
+            action_control_no_increment(output=output, incoming_msg=incoming_msg)
+            responded = True
+    if fuzz.ratio(incoming_msg, 'python introduction') >= 90:
+        if cleaned_number in permitted:
+            output = 'https://www.youtube.com/watch?v=Bd8UdnhVz3w'
+            action_control_no_increment(output=output, incoming_msg=incoming_msg)
+            responded = True
+    if fuzz.ratio(incoming_msg, 'revision python') >= 90:
+        if cleaned_number in permitted:
+            output ='https://www.youtube.com/watch?v=JwIDPrJCsqE'
+            action_control_no_increment(output=output, incoming_msg=incoming_msg)
+            responded = True
+    if fuzz.ratio(incoming_msg, 'list and dictionaries') >= 90:
+        if cleaned_number in permitted:
+            output = 'https://www.youtube.com/watch?v=sqVWZurOt5A'
+            action_control_no_increment(output=output, incoming_msg=incoming_msg)
+            responded = True
+    if fuzz.ratio(incoming_msg, 'pandas and numpy') >= 90:
+        if cleaned_number in permitted:
+            output = 'https://www.youtube.com/watch?v=L2743qZAq10&t=1s'
+            action_control_no_increment(output=output, incoming_msg=incoming_msg)
+            responded = True
+    if fuzz.ratio(incoming_msg, 'web scraping') >= 90:
+        if cleaned_number in permitted:
+            output = 'https://www.youtube.com/watch?v=2j11J9zIE2o'
+            action_control_no_increment(output=output, incoming_msg=incoming_msg)
+            responded = True
+    #the rest of the keywords
     if 'site' in incoming_msg:
         output = 'http://thegradientboost.com/'
         action_control_no_increment(output=output, incoming_msg=incoming_msg)

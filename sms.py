@@ -35,9 +35,9 @@ def bot():
     #permitted numbers
     permitted = ['27652581300', '27713287062', '27615304405', '2347033228906', '2348129190338', '2347065094065', '2348029033427','+2348106981030',
                  '22508574107', '264817432237', '27719414928', '27682447324', '27658112020',
-                 '2348166784247', '27765085085']
+                 '2348166784247','2348115183178']
     names = ['Emmanuel', 'Jasmine', 'Vusi', 'Ritmwa', 'Ajibola', 'Benjamin', 'Gershinen','Akinloye',
-             'Djangoran', 'Tokolo', 'Noxolo', 'Boipelo', 'Lethlogile', 'Mariam', 'Zenzele']
+             'Djangoran', 'Tokolo', 'Noxolo', 'Boipelo', 'Lethlogile', 'Mariam', 'Lewis']
     name_num = dict(zip(permitted,names))
     msg = resp.message()
     #set start and end time
